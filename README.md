@@ -74,10 +74,10 @@ The kubernetes-bootcamp container listens on port 8080 - we can make HTTP reques
 
 ```
 vagrant@kube-node2:~$ curl http://10.128.1.3:8080
-Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-5c69669756-ltpf6 | v=1
+Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-5c69669756-sl8xp | v=1
 
 vagrant@kube-node3:~$ curl http://10.128.2.4:8080
-Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-5c69669756-5nbr4 | v=1
+Hello Kubernetes bootcamp! | Running on: kubernetes-bootcamp-5c69669756-xqp25 | v=1
 ```
 
 We can also set up a nodePort with ```kubectl expose```:

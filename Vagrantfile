@@ -1,22 +1,26 @@
 # shared token for joining kubernetes cluster
 $cluster_token = "cxie6r.0gxsw80zf2xcti1d"
 
-# global settings for all boxes
-$box = "ubuntu/xenial64"
+# global settings
+$box = "generic/ubuntu1604"
+
+# virtualbox settings
+$virtualbox_cpus = 2 # will run with less, this just makes provisioning a bit quicker
+$virtualbox_mem = 2048 # will run with less, this just makes provisioning a bit quicker
+
+# libvirt settings
+$libvirt_cpus = 1
+$libvirt_mem = 1024
 
 # master settings
 $master_hostname = "kube-master"
 $master_ip = "192.168.64.2"
-$master_cpus = 2 # will run with less, this just makes provisioning quicker
-$master_memory = 2048 # will run with less, this just makes provisioning quicker
 
 # worker settings
 $node_count = 3
 $node_base_hostname = "kube-node"
 $node_base_ip = "192.168.64."
 $node_base_ip_cni = "10.128."
-$node_cpus = 2 # will run with less, this just makes provisioning quicker
-$node_memory = 2048 # will run with less, this just makes provisioning quicker
 
 # configs
 Vagrant.configure("2") do |config|
@@ -24,10 +28,14 @@ Vagrant.configure("2") do |config|
     master.vm.box = $box
     master.vm.hostname = $master_hostname
     master.vm.network "private_network", ip: $master_ip
-    master.vm.synced_folder "config", "/config"
+    master.vm.synced_folder "config", "/config", type: "rsync"
+    master.vm.provider "libvirt" do |v|
+      v.memory = $libvirt_mem
+      v.cpus = $libvirt_cpus
+    end
     master.vm.provider "virtualbox" do |v|
-      v.memory = $master_memory
-      v.cpus = $master_cpus
+      v.memory = $virtualbox_mem
+      v.cpus = $virtualbox_cpus
     end
     master.vm.provision "kube-baseline", type: "shell" do |script|
       script.path = "scripts/kube-baseline.sh"
@@ -47,10 +55,14 @@ Vagrant.configure("2") do |config|
       node.vm.box = $box
       node.vm.hostname = node_hostname
       node.vm.network "private_network", ip: node_ip
-      node.vm.synced_folder "config", "/config"
+      node.vm.synced_folder "config", "/config", type: "rsync"
+      node.vm.provider "libvirt" do |v|
+        v.memory = $libvirt_mem
+        v.cpus = $libvirt_cpus
+      end
       node.vm.provider "virtualbox" do |v|
-        v.memory = $node_memory
-        v.cpus = $node_cpus
+        v.memory = $virtualbox_mem
+        v.cpus = $virtualbox_cpus
       end
       node.vm.provision "kube-baseline", type: "shell" do |script|
         script.path = "scripts/kube-baseline.sh"

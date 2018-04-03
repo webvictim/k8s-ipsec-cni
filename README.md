@@ -6,8 +6,9 @@ The CNI plugin configuration is mostly taken from the [CNI plugin reference](htt
 ).
 
 Requirements:
-- Working installation of Hashicorp Vagrant 2 (https://www.vagrantup.com/) using Oracle VirtualBox for VM provisioning
-
+* Working installation of Hashicorp Vagrant 2 (https://www.vagrantup.com/) with either of these provisioners:
+    * virtualbox
+    * libvirt
 
 ### Deployment
 
@@ -65,6 +66,7 @@ kubernetes-bootcamp-5c69669756-z4x8t   1/1       Running   0          19m       
 If we SSH to any of the nodes, we can ping the IP of any pod on any node:
 
 ```
+$ vagrant ssh kube-node1
 vagrant@kube-node1:~$ ping 10.128.3.4
 PING 10.128.3.4 (10.128.3.4) 56(84) bytes of data.
 64 bytes from 10.128.3.4: icmp_seq=1 ttl=63 time=0.436 ms

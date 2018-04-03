@@ -17,3 +17,6 @@ deb http://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 apt-get update
 apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl
+
+# disable swap if it's enabled (kubeadm preflight checks stipulate that it can't be on)
+swapoff -a

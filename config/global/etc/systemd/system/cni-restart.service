@@ -1,0 +1,13 @@
+[Unit]
+Description=Reinitialise CNI bridge after restart
+Before=strongswan.service kubelet.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/cni-restart.sh
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=basic.target

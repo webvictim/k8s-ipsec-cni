@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
       end
       node.vm.provision "cni-provision", type: "shell" do |script|
         script.path = "scripts/cni-provision.sh"
-        script.env = { 'TOKEN' => $cluster_token, 'CNI_IP' => node_cni_ip, 'CNI_NETWORK' => node_cni_network }
+        script.env = { 'TOKEN' => $cluster_token, 'CNI_IP' => node_cni_ip }
       end
     end
   end

@@ -1,6 +1,6 @@
 [Unit]
 Description=Reinitialise CNI bridge after restart
-Before=kubelet.service strongswan.service
+Before=strongswan.service kubelet.service
 
 [Service]
 Type=oneshot

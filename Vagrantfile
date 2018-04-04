@@ -14,7 +14,7 @@ $libvirt_mem = 1024
 
 # master settings
 $master_hostname = "kube-node1"
-$master_ip = "192.168.64.10"
+$master_ip = "10.128.1.1"
 
 # worker settings
 $node_count = 3
@@ -43,6 +43,10 @@ Vagrant.configure("2") do |config|
         v.memory = $virtualbox_mem
         v.cpus = $virtualbox_cpus
       end
+      node.vm.provision "cni-provision", type: "shell" do |script|
+        script.path = "scripts/cni-provision.sh"
+        script.env = { 'TOKEN' => $cluster_token, 'CNI_IP' => node_cni_ip }
+      end
       node.vm.provision "kube-baseline", type: "shell" do |script|
         script.path = "scripts/kube-baseline.sh"
       end
@@ -53,10 +57,6 @@ Vagrant.configure("2") do |config|
       node.vm.provision "node-provision", type: "shell" do |script|
         script.path = "scripts/node-provision.sh"
         script.env = { 'TOKEN' => $cluster_token, 'MASTER_IP' => $master_ip, 'HOSTNAME' => node_hostname, 'MASTER_HOSTNAME' => $master_hostname }
-      end
-      node.vm.provision "cni-provision", type: "shell" do |script|
-        script.path = "scripts/cni-provision.sh"
-        script.env = { 'TOKEN' => $cluster_token, 'CNI_IP' => node_cni_ip }
       end
     end
   end

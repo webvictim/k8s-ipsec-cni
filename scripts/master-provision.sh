@@ -26,5 +26,5 @@ mkdir -p /home/vagrant/.kube
 cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown -R vagrant:vagrant /home/vagrant/.kube
 
-# remote taint from master node so that pods can be scheduled on it
+# remove taint from master node so that pods can be scheduled on it
 kubectl taint nodes kube-node1 node-role.kubernetes.io/master:NoSchedule-

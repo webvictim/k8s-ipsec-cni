@@ -2,6 +2,9 @@
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
+# set timezone to UTC
+rm /etc/localtime && ln -s /usr/share/zoneinfo/UTC /etc/localtime
+
 # install docker, kubelet, kubeadm and kubectl
 # from https://kubernetes.io/docs/setup/independent/install-kubeadm/
 # the key for the repo seems to have expired so we also need --allow-unauthenticated
@@ -20,3 +23,6 @@ apt-get install -y --allow-unauthenticated kubelet kubeadm kubectl
 
 # disable swap if it's enabled (kubeadm preflight checks stipulate that it can't be on)
 swapoff -a
+
+# delete swap entry from /etc/fstab to make sure it doesn't come back at boot
+sed -i '/UUID=d3461d2a-c518-4ed4-902d-ff23846c8ea7/d' /etc/fstab

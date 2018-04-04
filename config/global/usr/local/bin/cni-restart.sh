@@ -1,6 +1,6 @@
 #!/bin/bash
 # load the CNI IP from file
-source /usr/local/bin/cni-ip
+source /etc/cni.settings
 
 # add iptables rules at the top of the FORWARD chain to allow all traffic on the CNI interface
 iptables -I FORWARD 1 -o cni0 -j ACCEPT
